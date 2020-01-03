@@ -12,6 +12,10 @@ var connections = 0;
 
 io.on('connection', function(socket) {
     console.log('Connection made');
+
+
+    //TODO: check to see if marker name matches a marker we have support
+    //for, if not then disconnect it
     var marker = new Marker();
 
     //marker id is equal to the order of which it was created;
@@ -24,12 +28,16 @@ io.on('connection', function(socket) {
 
     //Tell the client that this our id for the server
     socket.emit('register', {id: thisMarkerID});
-    socket.emit('spawn', marker); //tell myself i have spawned
+    socket.emit('spawn', marker); //Tell unity i have spawned
 
-    socket.broadcast.emit
+    // socket.emit('updatePosition', function(data) {
+    //     marker.position.x = data.x;
+    //     marker.position.y = data.y;
+    //     marker.position.z = data.z;
+    //     socket.broadcast.emit('updatePosition', marker)
+    // })
+
     socket.on('disconnect', function() {
-        console.log('Player disconnected');
+        console.log('Application Disconnected');
     })
-
-
 });

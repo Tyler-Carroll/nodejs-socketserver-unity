@@ -5,36 +5,29 @@ var Marker = require('./Classes/Marker.js');
 
 console.log('Server has started');
 
-var markers = [];
+
+var markers = ['Headf'];
 var sockets = [];
 
-var connections = 0;
 
 io.on('connection', function(socket) {
     console.log('Connection made');
 
-
-    //TODO: check to see if marker name matches a marker we have support
-    //for, if not then disconnect it
+    socket.emit('register', {'markernames': 'Hello'})
     var marker = new Marker();
 
     //marker id is equal to the order of which it was created;
-    marker.id = connections;
-    connections++; 
+    marker.id = shortID.generate();
+    
     var thisMarkerID = marker.id;
 
     markers[thisMarkerID] = marker;
     sockets[thisMarkerID] = socket;
 
     //Tell the client that this our id for the server
-    socket.emit('register', {id: thisMarkerID, name: markers[thisMarkerID].name});
-
-    // socket.emit('updatePosition', function(data) {
-    //     marker.position.x = data.x;
-    //     marker.position.y = data.y;
-    //     marker.position.z = data.z;
-    //     socket.broadcast.emit('updatePosition', marker)
-    // })
+    
+    //if the client that was connected is not in the list of marker names we can disconnect it
+    //else we will give it an ID
 
     socket.on('disconnect', function() {
         console.log('Application Disconnected');

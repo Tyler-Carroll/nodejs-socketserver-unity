@@ -27,8 +27,7 @@ io.on('connection', function(socket) {
     sockets[thisMarkerID] = socket;
 
     //Tell the client that this our id for the server
-    socket.emit('register', {id: thisMarkerID});
-    socket.emit('spawn', marker); //Tell unity i have spawned
+    socket.emit('register', {id: thisMarkerID, name: markers[thisMarkerID].name});
 
     // socket.emit('updatePosition', function(data) {
     //     marker.position.x = data.x;

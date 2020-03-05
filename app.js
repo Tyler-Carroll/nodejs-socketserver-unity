@@ -5,31 +5,21 @@ var Marker = require('./Classes/Marker.js');
 
 console.log('Server has started');
 
-
-var markers = ['Headf', 'chestR'];
-var sockets = [];
-
+var markernames = ['Headf', 'chestR'];
 
 io.on('connection', function(socket) {
     console.log('Connection made');
 
-    socket.emit('register', {'markernames': markers})
+    socket.emit('register', {'markernames': markernames})
     var marker = new Marker();
 
-    //marker id is equal to the order of which it was created;
-    marker.id = shortID.generate();
-    
-    var thisMarkerID = marker.id;
-
-    markers[thisMarkerID] = marker;
-    sockets[thisMarkerID] = socket;
+    //markers[thisMarkerID] = marker;
+    //sockets[thisMarkerID] = socket;
 
     setInterval(() => {
         var rando = Math.floor(Math.random() * 101)
         socket.emit('MyData', rando)
-    }, 100);
-
-    
+    }, 10);
 
     //Tell the client that this our id for the server
     
